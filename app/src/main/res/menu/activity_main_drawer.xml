@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_gastronomy"
+            android:icon="@drawable/stew"
+            android:title="Кулинария" />
+        <item
+            android:id="@+id/nav_confectionary"
+            android:icon="@drawable/cupcake"
+            android:title="Кондитерская" />
+        <item
+            android:id="@+id/nav_bakery"
+            android:icon="@drawable/bread"
+            android:title="Хлебобулочная" />
+        <item
+        android:id="@+id/nav_hotel"
+        android:icon="@drawable/hotel"
+        android:title="Гостиница" />
+        <item
+            android:id="@+id/nav_camp"
+            android:icon="@drawable/village"
+            android:title="Детский лагерь" />
+    </group>
+
+    <item android:title="Сеть магазинов" android:menuCategory="secondary">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:title="На Маркова" />
+            <item
+                android:id="@+id/nav_send"
+                android:title="На Мауленова" />
+            <item
+                android:id="@+id/nav_send1"
+                android:title="На Гагарина" />
+            <item
+                android:id="@+id/nav_sen2d"
+                android:title="На Полежаева" />
+            <item
+                android:id="@+id/nav_send3"
+                android:title="32 км по Райымбека" />
+        </menu>
+    </item>
+
+</menu>

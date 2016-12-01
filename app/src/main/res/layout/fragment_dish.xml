@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:orientation="horizontal"
+    android:padding="1dp">
+
+    <ImageView
+        android:id="@+id/dishBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:textStyle="bold"
+        android:text="Плов узбекский"
+        android:textColor="@color/colorAccent2"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="Самый вкусный плов что вы кушали в городе"
+        android:textColor="@android:color/background_light"/>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="T 3000"
+        android:textColor="@android:color/holo_orange_light"
+        android:textStyle="normal|bold" />
+
+    <ImageButton
+        android:id="@+id/btnAdd"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/shopping_cart_add_button" />
+
+</RelativeLayout>
