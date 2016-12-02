@@ -138,7 +138,7 @@ public class AddDishActivity extends AppCompatActivity  {
         String name = holder.mEtName.getText().toString();
         String description = holder.mEtDescription.getText().toString();
         String price = holder.mEtPrice.getText().toString();
-        String url = holder.mImageUri!=null?holder.mImageUri.getPath():null;
+        String url = holder.mImageUri!=null?"file://" + holder.mImageUri.getPath():null;
 
         Dish dish = new Dish();
         dish.setName(name);

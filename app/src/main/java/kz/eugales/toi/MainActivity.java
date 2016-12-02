@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import io.realm.Realm;
 import kz.eugales.toi.pojo.Dish;
 import kz.eugales.toi.services.DishService;
+import kz.eugales.toi.utils.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,6 +69,11 @@ public class MainActivity extends AppCompatActivity
 
         realm = Realm.getDefaultInstance();
 
+        if(Utils.isNetworkAvailable(getApplicationContext())){
+            realm.beginTransaction();
+            realm.deleteAll();
+            realm.commitTransaction();
+        }
     }
 
 
