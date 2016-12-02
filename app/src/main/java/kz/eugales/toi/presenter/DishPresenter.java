@@ -14,8 +14,6 @@ import static rx.Observable.from;
 
 public class DishPresenter extends BasePresenter implements Observer<List<Dish>> {
 
-
-
     ItemViewListener mItemViewListener;
 
     public DishPresenter(ItemViewListener itemViewListener) {

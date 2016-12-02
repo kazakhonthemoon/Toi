@@ -26,12 +26,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DishFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        DishFragment.OnListFragmentInteractionListener{
+
+    public final int ADD_DISH = 1;
 
     @Inject
     DishService mDishService;
 
     DishFragment mDishFragment = null;
+
+    Realm realm = null;
+
+    int mMenuItemId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +66,22 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
-        ((DishesApplication) getApplication()).getDishComponent().inject(this);
-
-        refreshRealm();
-
+        realm = Realm.getDefaultInstance();
 
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == ADD_DISH) {
+                Dish dish = (Dish)data.getExtras().getSerializable("dish");
+                Snackbar.make(getCurrentFocus(),"Блюдо " + dish.getName() + " добавлено", Snackbar.LENGTH_SHORT).show();
+            }
+        }
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -89,8 +105,8 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.action_add_dish:
-                Intent intent = new Intent(this,AddDishActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(this, AddDishActivity.class);
+                startActivityForResult(intent, ADD_DISH);
             case R.id.action_settings:
                 return true;
             default:
@@ -98,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    int mMenuItemId = 0;
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -160,23 +176,4 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void refreshRealm() {
-
-        mDishService.getDishes().enqueue(new Callback<List<Dish>>() {
-            Realm realm = Realm.getDefaultInstance();
-
-            @Override
-            public void onResponse(Call<List<Dish>> call, Response<List<Dish>> response) {
-                realm.beginTransaction();
-                realm.insertOrUpdate(response.body());
-                realm.commitTransaction();
-            }
-
-            @Override
-            public void onFailure(Call<List<Dish>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
-    }
 }

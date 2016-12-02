@@ -18,6 +18,9 @@ import kz.eugales.toi.pojo.Dish;
 import kz.eugales.toi.presenter.DishPresenter;
 import kz.eugales.toi.presenter.ItemViewListener;
 import kz.eugales.toi.services.DishService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Observable;
 
 public class DishFragment extends Fragment implements ItemViewListener<List<Dish>> {
@@ -25,7 +28,7 @@ public class DishFragment extends Fragment implements ItemViewListener<List<Dish
     private int mCategoryId;
     private int mColumnCount;
     private DishAdapter mDishAdapter;
-    private DishPresenter mDishPresenter;
+    public DishPresenter mDishPresenter;
     @Inject
     DishService mDishService;
     private OnListFragmentInteractionListener mListener;
@@ -44,6 +47,7 @@ public class DishFragment extends Fragment implements ItemViewListener<List<Dish
         return fragment;
     }
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -53,16 +57,22 @@ public class DishFragment extends Fragment implements ItemViewListener<List<Dish
         this.mDishPresenter.onCreate();
         this.mDishAdapter = new DishAdapter(getActivity().getApplicationContext(), this.mListener);
         this.realm = Realm.getDefaultInstance();
-        this.mDishPresenter.fetchDishes();
+
+        ((DishesApplication) getActivity().getApplicationContext()).getDishComponent().inject(this);
     }
 
+    @Override
     public void onResume() {
         super.onResume();
-        this.mDishPresenter.onResume();
+        mDishPresenter.onResume();
+        refreshRealm();
+
+
     }
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dish, container, false);
+        View view = inflater.inflate(R.layout.fragment_dish_list, container, false);
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -76,6 +86,7 @@ public class DishFragment extends Fragment implements ItemViewListener<List<Dish
         return view;
     }
 
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
@@ -85,25 +96,55 @@ public class DishFragment extends Fragment implements ItemViewListener<List<Dish
         throw new RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener");
     }
 
+    @Override
     public void onDetach() {
         super.onDetach();
         this.mListener = null;
     }
 
+    @Override
     public void onCompleted() {
     }
 
+    @Override
     public void onError(Throwable throwable) {
         throwable.printStackTrace();
     }
 
+    @Override
     public void onItems(List<Dish> dishes) {
         this.mDishAdapter.addDish(dishes);
     }
 
+    @Override
     public Observable<List<Dish>> getItems() {
         RealmResults<Dish> dishRealmResults = this.realm.where(Dish.class).equalTo("category", Integer.valueOf(this.mCategoryId)).findAll();
         return Observable.just(dishRealmResults.subList(0, dishRealmResults.size()));
+    }
+
+    private void refreshRealm() {
+
+        mDishService.getDishes().enqueue(new Callback<List<Dish>>() {
+
+
+            @Override
+            public void onResponse(Call<List<Dish>> call, Response<List<Dish>> response) {
+                realm.beginTransaction();
+                realm.insertOrUpdate(response.body());
+                realm.commitTransaction();
+
+                //mDishAdapter.notifyDataSetChanged();
+
+
+                mDishPresenter.fetchDishes();
+            }
+
+            @Override
+            public void onFailure(Call<List<Dish>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 
     public interface OnListFragmentInteractionListener {

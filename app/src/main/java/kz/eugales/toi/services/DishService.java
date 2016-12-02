@@ -26,5 +26,5 @@ public interface DishService {
     Observable<Dish> getDish(@Path("dishId") int dishId);
 
     @POST("/v1/dishes/")
-    Observable<Dish> insertDish(@Body Dish dish);
+    Call<Dish> insertDish(@Body Dish dish);
 }

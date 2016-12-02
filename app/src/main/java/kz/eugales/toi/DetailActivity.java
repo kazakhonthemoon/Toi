@@ -2,7 +2,6 @@ package kz.eugales.toi;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -47,7 +45,7 @@ public class DetailActivity extends AppCompatActivity {
         holder.mTvPrice.setText("T" + String.valueOf(dish.getPrice()));
 
         Picasso.with(getApplicationContext())
-                .load("http://img.povar.ru/uploads/8b/4e/89/f5/uzbekskii_plov-4860.jpg")
+                .load(holder.mDish.getPicurl())
                 .fit()
                 .into(holder.mIvBackground);
         holder.mIvBackground.setColorFilter(Color.parseColor("#aaaaaa"), PorterDuff.Mode.MULTIPLY);

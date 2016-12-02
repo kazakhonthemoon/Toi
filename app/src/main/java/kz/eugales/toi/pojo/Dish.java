@@ -1,5 +1,7 @@
 package kz.eugales.toi.pojo;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -7,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Adil on 27.11.2016.
  */
 
-public class Dish extends RealmObject {
+public class Dish extends RealmObject implements Serializable {
 
     @PrimaryKey
     private int id;
@@ -16,7 +18,7 @@ public class Dish extends RealmObject {
     private String name;
     private String description;
     private float price;
-    private String picUrl;
+    private String picurl;
 
     public int getId() {
         return id;
@@ -58,11 +60,11 @@ public class Dish extends RealmObject {
         this.price = price;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getPicurl() {
+        return picurl;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setPicurl(String picurl) {
+        this.picurl = picurl;
     }
 }

@@ -35,7 +35,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
 
     public ArrayList<Dish> DISHES;
     private final OnListFragmentInteractionListener mListener;
-    private ImageLoader imageLoader;
+    //private ImageLoader imageLoader;
     private DisplayImageOptions options;
     Context mContext;
 
@@ -43,7 +43,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
     public DishAdapter(Context context, OnListFragmentInteractionListener listener) {
         mListener = listener;
         DISHES = new ArrayList<>();
-        imageLoader = getConfiguredImageLoader(context);
+        //imageLoader = getConfiguredImageLoader(context);
         mContext = context;
     }
 
@@ -60,7 +60,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
         //imageLoader.displayImage("drawable://" + R.raw.uzb_plov, holder.mIvBackground, options);
         //imageLoader.displayImage("http://img.povar.ru/uploads/8b/4e/89/f5/uzbekskii_plov-4860.jpg", holder.mIvBackground, options);
         Picasso.with(mContext)
-                .load("http://img.povar.ru/uploads/8b/4e/89/f5/uzbekskii_plov-4860.jpg")
+                .load(holder.mDish.getPicurl())
                 .fit()
                 .into(holder.mIvBackground);
         holder.mIvBackground.setColorFilter(Color.parseColor("#aaaaaa"), PorterDuff.Mode.MULTIPLY);
@@ -90,6 +90,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
     }
 
     public void addDish(List<Dish> dishes){
+        DISHES.clear();
         DISHES.addAll(dishes);
         notifyDataSetChanged();
     }

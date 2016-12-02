@@ -1,7 +1,8 @@
 package kz.eugales.toi.di;
 
 import dagger.Component;
-import kz.eugales.toi.MainActivity;
+import kz.eugales.toi.AddDishActivity;
+import kz.eugales.toi.DishFragment;
 import kz.eugales.toi.annotations.PerActivity;
 
 /**
@@ -11,5 +12,6 @@ import kz.eugales.toi.annotations.PerActivity;
 @PerActivity
 @Component(modules = {DishModule.class}, dependencies = {NetworkComponent.class})
 public interface DishComponent {
-    void inject(MainActivity mainActivity);
+    void inject(DishFragment dishFragment);
+    void inject(AddDishActivity addDishActivity);
 }
